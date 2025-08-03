@@ -42,8 +42,6 @@ import { verifyJWT } from "../utils/jwtUtils.mjs";
      try {
          const payload = await verifyJWT(token);
          request.userMessage = payload;
-         logger.info({ payload });
-
     } catch (error) {
         logger.error({ error }, '验证token失败')
         return response.status(400).json({ message: '验证token失败' });
@@ -51,10 +49,8 @@ import { verifyJWT } from "../utils/jwtUtils.mjs";
     next();
 }
 
- const globalErrorHandler = (err, _request, response, _next) => {
-    
-    const { name = '未知错误', message = '有bug!', statusCode = 500 } = err;
-    response.status(statusCode).send(message);
+ const globalErrorHandler = (_err, _request, response, _next) => {
+    response.status(500).send('global bug!');
 
 
 }
